@@ -6,3 +6,5 @@ A refresher on TCC and LCC is available in the [course notes](https://oscarlvp.g
 
 ## Answer
 
+TCC = LCC = 1 si tous les sommets du graphe sont reliés deux à deux, c'est-à dire quand toutes les méthodes utilisent les mêmes attributs.
+
