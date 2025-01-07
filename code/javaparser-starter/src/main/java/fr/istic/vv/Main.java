@@ -1,17 +1,9 @@
 package fr.istic.vv;
 
-import com.github.javaparser.Problem;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.visitor.VoidVisitor;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.utils.SourceRoot;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Main {
 
@@ -28,9 +20,14 @@ public class Main {
         }
 
         SourceRoot root = new SourceRoot(file.toPath());
-        PublicElementsPrinter printer = new PublicElementsPrinter();
+        NoGetterPrinter printer = new NoGetterPrinter("./report-nogetter.md");
         root.parse("", (localPath, absolutePath, result) -> {
             result.ifSuccessful(unit -> unit.accept(printer, null));
+            return SourceRoot.Callback.Result.DONT_SAVE;
+        });
+        CyclomaticComplexityPrinter printer2 = new CyclomaticComplexityPrinter("./report-cc.md");
+        root.parse("", (localPath, absolutePath, result) -> {
+            result.ifSuccessful(unit -> unit.accept(printer2, null));
             return SourceRoot.Callback.Result.DONT_SAVE;
         });
     }
